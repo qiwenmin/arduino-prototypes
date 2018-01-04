@@ -17,8 +17,6 @@ void setup() {
 
 bool on_led_toggle(EvtListener *lsnr, EvtContext *) {
   LedContext *ctx = (LedContext *)lsnr->extraData;
-  led_toggle(ctx);
-
-  return false;
+  return led_toggle(ctx);
 }
 

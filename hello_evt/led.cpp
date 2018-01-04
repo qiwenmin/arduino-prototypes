@@ -12,5 +12,7 @@ bool led_toggle(LedContext *ctx) {
   ctx->state = ctx->state == OFF ? ON : OFF;
 
   digitalWrite(1, ctx->state == ON);
+
+  return false;
 }
 
