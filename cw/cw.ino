@@ -1,4 +1,5 @@
 #include "keyer.h"
+#include "led_def.h"
 
 Keyer keyer;
 
@@ -7,14 +8,14 @@ static unsigned long currentMillis;
 void setup() {
   currentMillis = millis();
 
-  pinMode(1, OUTPUT);
+  pinMode(LED_PIN, OUTPUT);
 
   keyer.init(currentMillis);
-  keyer.setPin(1);
+  keyer.setPin(LED_PIN, LED_ON_VALUE);
   keyer.setWpm(20);
 }
 
-const char codes[] PROGMEM = {
+const int8_t codes[] PROGMEM = {
   3, 1, 3, 1, -2, // c
   3, 3, 1, 3, -6,  // q
 
@@ -48,7 +49,7 @@ void loop() {
   currentMillis = millis();
 
   if (keyer.isIdle()) {
-    char c = pgm_read_byte(&codes[codeIndex]);
+    int8_t c = pgm_read_byte(&codes[codeIndex]);
     codeIndex ++;
     if (codeIndex >= codeLen) codeIndex = 0;
 

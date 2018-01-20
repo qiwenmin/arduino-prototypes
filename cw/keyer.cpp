@@ -1,12 +1,15 @@
 #include "Arduino.h"
 #include "keyer.h"
+#include "led_def.h"
 
 #define KEYER_DEFAULT_PWM 10
-#define KEYER_DEFAULT_PIN 1
+#define KEYER_DEFAULT_PIN LED_PIN
+#define KEYING_DEFAULT_VALUE LED_ON_VALUE
 
 Keyer::Keyer() {
   this->_state = IDLE;
   this->_pin = KEYER_DEFAULT_PIN;
+  this->_keyingValue = KEYING_DEFAULT_VALUE;
   this->setWpm(KEYER_DEFAULT_PWM);
 }
 
@@ -15,8 +18,9 @@ void Keyer::init(unsigned long currentMillis) {
   this->_lastMillis = currentMillis;
 }
 
-void Keyer::setPin(int value) {
+void Keyer::setPin(int value, bool keyingValue) {
   this->_pin = value;
+  this->_keyingValue = keyingValue;
 }
 
 void Keyer::setWpm(int value) {
@@ -43,7 +47,7 @@ bool Keyer::setState(State state, int elements) {
   this->_timeout = this->_mpe * elements;
   this->_state = state;
 
-  digitalWrite(this->_pin, this->_state == KEYING ? HIGH : LOW);
+  digitalWrite(this->_pin, this->_state == KEYING ? this->_keyingValue : !this->_keyingValue);
 
   return true;
 }

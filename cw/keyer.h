@@ -6,7 +6,7 @@ public:
   Keyer();
 
   void init(unsigned long currentMillis);
-  void setPin(int value);
+  void setPin(int value, bool keyingValue);
   void setWpm(int value);
 
   bool isIdle();
@@ -25,6 +25,7 @@ private:
 
   State _state;
   int _pin;
+  bool _keyingValue;
   int _mpe;
   unsigned long _lastMillis;
   unsigned long _timeout;
